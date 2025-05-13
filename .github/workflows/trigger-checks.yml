@@ -1,66 +1,24 @@
-name: Call Custom GitHub App
+name: Run Checks
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - main
-      - staging
-      - 'release/**'
-  
+    branches: [main, staging]
   push:
-    branches:
-      - development
-      - feature/*
-      - 'hotfix/**'
+    branches: [development, feature/*, hotfix/*]
+
+permissions:
+  # Required for creating check runs
+  checks: write
+  # Required to read repository content
+  contents: read
 
 jobs:
-  trigger-app-checks:
+  validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      
-      - name: Get event context
-        id: context
-        run: |
-          EVENT_TYPE="${{ github.event_name }}"
-          echo "event_type=$EVENT_TYPE" >> $GITHUB_OUTPUT
-          echo "repository=${{ github.repository }}" >> $GITHUB_OUTPUT
-          echo "sha=${{ github.sha }}" >> $GITHUB_OUTPUT
-          
-          if [[ "$EVENT_TYPE" == "pull_request" ]]; then
-            echo "pr_number=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
-            echo "base_branch=${{ github.event.pull_request.base.ref }}" >> $GITHUB_OUTPUT
-            echo "head_branch=${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
-            echo "head_sha=${{ github.event.pull_request.head.sha }}" >> $GITHUB_OUTPUT
-          else
-            # For push events
-            echo "branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
-          fi
-      
-      - name: Call GitHub App API
-        id: app-call
-        uses: fjogeleit/http-request-action@v1
+      - name: Trigger App Check
+        uses: autonoma-sandbox/github-app-check-trigger@v1
         with:
-          url: 'https://e80c-200-80-234-200.ngrok-free.app/api/github'
-          method: 'POST'
-          contentType: 'application/json'
-          data: >-
-            {
-              "event_type": "${{ steps.context.outputs.event_type }}",
-              "repository": "${{ steps.context.outputs.repository }}",
-              "sha": "${{ steps.context.outputs.sha }}",
-              "pr_number": "${{ steps.context.outputs.pr_number || '' }}",
-              "base_branch": "${{ steps.context.outputs.base_branch || '' }}",
-              "head_branch": "${{ steps.context.outputs.head_branch || '' }}",
-              "head_sha": "${{ steps.context.outputs.head_sha || '' }}",
-              "branch": "${{ steps.context.outputs.branch || '' }}",
-              "action_token": "${{ secrets.GITHUB_APP_TOKEN }}",
-              "workflow_run_id": "${{ github.run_id }}"
-            }
-      
-      - name: Log response
-        run: |
-          echo "Status: ${{ steps.app-call.outputs.status }}"
-          echo "Response: ${{ steps.app-call.outputs.response }}"
+          check-name: "Branch Validation"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

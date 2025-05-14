@@ -1,15 +1,11 @@
-name: Run Checks.
+name: Run Checks
 
 on:
-  pull_request:
-    branches: [main, staging]
   push:
     branches: [development, feature/*, hotfix/*]
 
 permissions:
-  # Required for creating check runs
   checks: write
-  # Required to read repository content
   contents: read
 
 jobs:
@@ -21,6 +17,5 @@ jobs:
         with:
           test-id: "cm8heqewe000164i9by1dsqrf"
           check-name: "Testing something"
-          api-key: "cmao655k500033xb3hap0umsl"
         env:
           GITHUB_TOKEN: ${{ github.token }}

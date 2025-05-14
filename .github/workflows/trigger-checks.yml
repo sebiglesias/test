@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger App Check
-        uses: autonoma-sandbox/github-app-check-trigger@v2
+        uses: autonoma-sandbox/github-app-check-trigger@v3
         with:
           test-id: "cm8heqewe000164i9by1dsqrf"
         env:

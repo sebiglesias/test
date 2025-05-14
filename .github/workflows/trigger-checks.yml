@@ -1,4 +1,4 @@
-name: Run Checks
+name: Run Checks.
 
 on:
   pull_request:

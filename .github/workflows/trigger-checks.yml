@@ -17,8 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger App Check
-        uses: autonoma-sandbox/github-app-check-trigger@v4
+        uses: autonoma-sandbox/github-app-check-trigger@v5
         with:
           test-id: "cm8heqewe000164i9by1dsqrf"
+          check-name: "Testing something"
+          api-key: "cmao655k500033xb3hap0umsl"
         env:
           GITHUB_TOKEN: ${{ github.token }}

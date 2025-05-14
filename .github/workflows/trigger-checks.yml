@@ -12,7 +12,7 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger App Check2
+      - name: Trigger App Check
         uses: autonoma-sandbox/github-app-check-trigger@v8
         with:
           test-id: "cm8vxp4d100a9ku81laaobrnh"

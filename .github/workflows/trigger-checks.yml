@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger App Check
-        uses: autonoma-sandbox/github-app-check-trigger@v1
+        uses: autonoma-sandbox/github-app-check-trigger@v6
         with:
           check-name: "Branch Validation"
         env:

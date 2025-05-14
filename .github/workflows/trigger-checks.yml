@@ -19,6 +19,6 @@ jobs:
       - name: Trigger App Check
         uses: autonoma-sandbox/github-app-check-trigger@v2
         with:
-          check-name: "Branch Validation"
+          test-id: "cm8heqewe000164i9by1dsqrf"
         env:
           GITHUB_TOKEN: ${{ github.token }}

@@ -15,7 +15,7 @@ jobs:
       - name: Trigger App Check2
         uses: autonoma-sandbox/github-app-check-trigger@v8
         with:
-          test-id: "cm8heqewe000164i9by1dsqrf"
+          test-id: "cm8vxoiw6004fku81whvds58c"
           check-name: "Testing something"
         env:
           GITHUB_TOKEN: ${{ github.token }}
